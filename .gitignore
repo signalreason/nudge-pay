@@ -1,0 +1,13 @@
+# Node
+frontend/node_modules
+frontend/.next
+frontend/.turbo
+frontend/.env.local
+frontend/.env
+
+# Go
+backend/nudgepay.db
+backend/*.test
+
+# OS
+.DS_Store

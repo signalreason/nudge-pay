@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nudgepay-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nudgepay-api
+  template:
+    metadata:
+      labels:
+        app: nudgepay-api
+    spec:
+      containers:
+        - name: api
+          image: nudgepay-api:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: NUDGEPAY_ADDR
+              value: ":8080"
+            - name: NUDGEPAY_DB
+              value: "/data/nudgepay.db"
+            - name: NUDGEPAY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: nudgepay-secrets
+                  key: jwt-secret
+            - name: NUDGEPAY_WORKER
+              value: "true"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}

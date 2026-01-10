@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nudgepay-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nudgepay-frontend
+  template:
+    metadata:
+      labels:
+        app: nudgepay-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: nudgepay-frontend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: "http://nudgepay-api:8080"
