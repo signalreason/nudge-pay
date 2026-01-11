@@ -1,5 +1,62 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
+export interface Client {
+  id: string;
+  name: string;
+  email: string;
+  company: string;
+  phone: string;
+  notes: string;
+}
+
+export interface Invoice {
+  id: string;
+  number: string;
+  amount_cents: number;
+  currency: string;
+  due_date: string;
+  status: string;
+}
+
+export interface Reminder {
+  id: string;
+  invoice_number: string;
+  scheduled_for: string;
+  sent_at?: string | null;
+  status: string;
+}
+
+export interface OutboxEmail {
+  id: string;
+  to_email: string;
+  subject: string;
+  created_at: string;
+}
+
+export interface Metrics {
+  clients: number;
+  invoices: number;
+  overdue: number;
+  upcoming_reminders: number;
+  outstanding_cents: number;
+}
+
+interface ClientsResponse {
+  clients: Client[];
+}
+
+interface InvoicesResponse {
+  invoices: Invoice[];
+}
+
+interface RemindersResponse {
+  reminders: Reminder[];
+}
+
+interface OutboxResponse {
+  outbox: OutboxEmail[];
+}
+
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const response = await fetch(`${API_URL}${path}`, {
     headers: {
@@ -38,14 +95,14 @@ export function login(payload: {
   });
 }
 
-export function getMetrics(token: string) {
-  return request('/api/metrics', {
+export function getMetrics(token: string): Promise<Metrics> {
+  return request<Metrics>('/api/metrics', {
     headers: { Authorization: `Bearer ${token}` }
   });
 }
 
-export function listClients(token: string) {
-  return request('/api/clients', {
+export function listClients(token: string): Promise<ClientsResponse> {
+  return request<ClientsResponse>('/api/clients', {
     headers: { Authorization: `Bearer ${token}` }
   });
 }
@@ -64,8 +121,8 @@ export function createClient(token: string, payload: {
   });
 }
 
-export function listInvoices(token: string) {
-  return request('/api/invoices', {
+export function listInvoices(token: string): Promise<InvoicesResponse> {
+  return request<InvoicesResponse>('/api/invoices', {
     headers: { Authorization: `Bearer ${token}` }
   });
 }
@@ -85,14 +142,14 @@ export function createInvoice(token: string, payload: {
   });
 }
 
-export function listReminders(token: string) {
-  return request('/api/reminders', {
+export function listReminders(token: string): Promise<RemindersResponse> {
+  return request<RemindersResponse>('/api/reminders', {
     headers: { Authorization: `Bearer ${token}` }
   });
 }
 
-export function listOutbox(token: string) {
-  return request('/api/outbox', {
+export function listOutbox(token: string): Promise<OutboxResponse> {
+  return request<OutboxResponse>('/api/outbox', {
     headers: { Authorization: `Bearer ${token}` }
   });
 }

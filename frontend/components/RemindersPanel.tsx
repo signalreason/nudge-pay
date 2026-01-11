@@ -1,23 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { listOutbox, listReminders } from '@/lib/api';
+import { OutboxEmail, Reminder, listOutbox, listReminders } from '@/lib/api';
 import { getToken } from '@/lib/auth';
-
-interface Reminder {
-  id: string;
-  invoice_number: string;
-  scheduled_for: string;
-  sent_at?: string | null;
-  status: string;
-}
-
-interface OutboxEmail {
-  id: string;
-  to_email: string;
-  subject: string;
-  created_at: string;
-}
 
 export function RemindersPanel() {
   const [reminders, setReminders] = useState<Reminder[]>([]);
@@ -34,8 +19,8 @@ export function RemindersPanel() {
 
     Promise.all([listReminders(token), listOutbox(token)])
       .then(([remindersData, outboxData]) => {
-        setReminders(remindersData.reminders as Reminder[]);
-        setOutbox(outboxData.outbox as OutboxEmail[]);
+        setReminders(remindersData.reminders);
+        setOutbox(outboxData.outbox);
       })
       .catch((err) => setError(err instanceof Error ? err.message : 'Failed to load'));
   }, [token]);

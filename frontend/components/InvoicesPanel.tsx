@@ -1,22 +1,8 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
-import { createInvoice, listClients, listInvoices } from '@/lib/api';
+import { Client, Invoice, createInvoice, listClients, listInvoices } from '@/lib/api';
 import { getToken } from '@/lib/auth';
-
-interface Client {
-  id: string;
-  name: string;
-}
-
-interface Invoice {
-  id: string;
-  number: string;
-  amount_cents: number;
-  currency: string;
-  due_date: string;
-  status: string;
-}
 
 export function InvoicesPanel() {
   const [clients, setClients] = useState<Client[]>([]);
@@ -37,8 +23,8 @@ export function InvoicesPanel() {
 
     Promise.all([listClients(token), listInvoices(token)])
       .then(([clientsData, invoicesData]) => {
-        setClients(clientsData.clients as Client[]);
-        setInvoices(invoicesData.invoices as Invoice[]);
+        setClients(clientsData.clients);
+        setInvoices(invoicesData.invoices);
       })
       .catch((err) => setError(err instanceof Error ? err.message : 'Failed to load'));
   }, [token]);
@@ -69,7 +55,7 @@ export function InvoicesPanel() {
       setAmount('');
       setDueDate('');
       const invoicesData = await listInvoices(token);
-      setInvoices(invoicesData.invoices as Invoice[]);
+      setInvoices(invoicesData.invoices);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create');
     }

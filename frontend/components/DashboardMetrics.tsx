@@ -1,16 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getMetrics } from '@/lib/api';
+import { Metrics, getMetrics } from '@/lib/api';
 import { getToken } from '@/lib/auth';
-
-interface Metrics {
-  clients: number;
-  invoices: number;
-  overdue: number;
-  upcoming_reminders: number;
-  outstanding_cents: number;
-}
 
 export function DashboardMetrics() {
   const [metrics, setMetrics] = useState<Metrics | null>(null);
@@ -24,7 +16,7 @@ export function DashboardMetrics() {
     }
 
     getMetrics(token)
-      .then((data) => setMetrics(data as Metrics))
+      .then((data) => setMetrics(data))
       .catch((err) => setError(err instanceof Error ? err.message : 'Failed to load metrics'));
   }, []);
 
