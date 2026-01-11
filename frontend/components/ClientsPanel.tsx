@@ -1,17 +1,8 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
-import { createClient, listClients } from '@/lib/api';
+import { Client, createClient, listClients } from '@/lib/api';
 import { getToken } from '@/lib/auth';
-
-interface Client {
-  id: string;
-  name: string;
-  email: string;
-  company: string;
-  phone: string;
-  notes: string;
-}
 
 export function ClientsPanel() {
   const [clients, setClients] = useState<Client[]>([]);
@@ -28,7 +19,7 @@ export function ClientsPanel() {
       return;
     }
     listClients(token)
-      .then((data) => setClients(data.clients as Client[]))
+      .then((data) => setClients(data.clients))
       .catch((err) => setError(err instanceof Error ? err.message : 'Failed to load'));
   }, [token]);
 
@@ -48,7 +39,7 @@ export function ClientsPanel() {
       setEmail('');
       setCompany('');
       const data = await listClients(token);
-      setClients(data.clients as Client[]);
+      setClients(data.clients);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create');
     }
