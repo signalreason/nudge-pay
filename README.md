@@ -10,6 +10,9 @@ Automated invoice reminder SaaS for freelancers and small agencies.
 - Provide a backend API, worker, and frontend for managing clients and invoices.
 - Run locally on SQLite with a clear path to Postgres at scale.
 
+## Highest-Impact Next Step
+- Integrate an email provider and complete the reminder delivery pipeline with tests.
+
 ## Quick start
 
 ```bash
