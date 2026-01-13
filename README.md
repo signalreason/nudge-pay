@@ -13,6 +13,9 @@ Automated invoice reminder SaaS for freelancers and small agencies.
 ## Highest-Impact Next Step
 - Integrate an email provider and complete the reminder delivery pipeline with tests.
 
+## Checks
+- Status: passing (GitHub Actions: CI).
+
 ## Quick start
 
 ```bash
