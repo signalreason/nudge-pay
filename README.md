@@ -2,6 +2,14 @@
 
 Automated invoice reminder SaaS for freelancers and small agencies.
 
+## Purpose
+- Help freelancers and small agencies automate invoice reminders.
+
+## Goals
+- Schedule multi-stage reminders relative to invoice due dates.
+- Provide a backend API, worker, and frontend for managing clients and invoices.
+- Run locally on SQLite with a clear path to Postgres at scale.
+
 ## Quick start
 
 ```bash
@@ -27,4 +35,4 @@ cd backend && go test ./...
 cd frontend && npm test
 ```
 
-See `docs/PRODUCT.md` for product analysis, roadmap, and architecture.
+See `docs/PRODUCT.md` for product analysis, roadmap, and architecture. Repo map: `docs/REPO_MAP.md`.
